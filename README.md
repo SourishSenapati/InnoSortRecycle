@@ -1,6 +1,6 @@
 # RADORDENA Digital Twin Platform
 
-### RADORDENA: Turning Urban Waste into Strategic Energy Assets
+## RADORDENA: Turning Urban Waste into Strategic Energy Assets
 
 > _AI & Biotechnology Integrated Recycling_
 
