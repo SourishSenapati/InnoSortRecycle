@@ -1,0 +1,20 @@
+# Large Data Files (Prevent Upload)
+archive.zip
+datasets/
+runs/
+temp_extracted_data/
+
+# Python compiled files
+__pycache__/
+*.py[cod]
+
+# Model Weights (Too big for git)
+*.pt
+*.onnx
+*.bin
+
+# Environment
+.env
+.venv
+env/
+venv/

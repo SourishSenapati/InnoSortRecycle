@@ -1,0 +1,7 @@
+path: datasets/batteries # dataset root dir
+train: train/images # train images (relative to 'path')
+val: val/images # val images (relative to 'path')
+
+# Classes
+nc: 3 # number of classes
+names: ["NMC", "LFP", "Contaminant"]

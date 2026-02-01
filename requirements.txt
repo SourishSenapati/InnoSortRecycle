@@ -1,0 +1,14 @@
+streamlit
+numpy
+pandas
+plotly
+scipy
+ultralytics
+stable-baselines3
+shimmy
+transformers
+accelerate
+tiktoken
+cpm_kernels
+optimum
+auto-gptq

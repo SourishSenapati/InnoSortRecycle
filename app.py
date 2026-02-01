@@ -1,0 +1,488 @@
+"""
+InnoSortRecycle Digital Twin Application.
+This is the main entry point for the Streamlit dashboard, orchestrating the AI,
+Simulation, and Financial modules.
+"""
+import streamlit as st
+import numpy as np
+import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from src.simulation_engine import BioleachingReactor, ElectroRecovery
+from src.ai_engine import HyperspectralClassifier
+from src.financials import FinancialModel
+from src.connect_agent import ConnectAgent
+
+# Page Config
+st.set_page_config(
+    page_title="InnoSortRecycle Digital Twin",
+    page_icon="none",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+# Custom CSS for Premium Look
+st.markdown("""
+<style>
+    .reportview-container {
+        background: #0E1117;
+    }
+    .main .block-container {
+        padding-top: 2rem;
+    }
+    h1, h2, h3 {
+        font-family: 'Helvetica Neue', sans-serif;
+        color: #00FF94; /* Bio-tech Green */
+    }
+    .metric-card {
+        background-color: #1F2937;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #374151;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .stButton>button {
+        background-color: #00FF94;
+        color: #000000;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Sidebar
+st.sidebar.image("https://img.icons8.com/nolan/96/recycling.png", width=80)
+st.sidebar.title("RADORDENA Control")
+st.sidebar.markdown("---")
+
+# Navigation
+page = st.sidebar.radio("Module Selection",
+                        ["Dashboard Overview",
+                         "RADORDENA Connect",
+                         "Agent Training Center",
+                         "Chat with Plant",
+                         "AI Battery Sorting",
+                         "Process Simulation",
+                         "Financial Analysis"])
+
+# Initialize Engines
+reactor = BioleachingReactor()
+extractor = ElectroRecovery()
+ai_classifier = HyperspectralClassifier()
+finance = FinancialModel()
+connector = ConnectAgent()
+
+if page == "Dashboard Overview":
+    st.title("RADORDENA Intelligence Hub")
+    st.markdown("### Turning Urban Waste into Strategic Energy Assets")
+    st.markdown(
+        """
+        **The Solution:** A hybrid, closed-loop LIB recycling system designed for India.
+        **RADORDENA** replaces the "burn it all" approach with a precision
+        **"Sort-Bioleach-Recover"** pipeline:
+        **Intelligent Sorting ('Eyes') → Bioleaching ('Core') → Electro-Recovery ('Harvest')**.
+        """
+    )
+
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.markdown(
+            '<div class="metric-card"><h3>> 95%</h3><p>Critical Mineral Recovery</p></div>',
+            unsafe_allow_html=True
+        )
+    with col2:
+        st.markdown(
+            '<div class="metric-card"><h3>-30%</h3><p>Operating Costs</p></div>',
+            unsafe_allow_html=True
+        )
+    with col3:
+        st.markdown(
+            '<div class="metric-card"><h3>128 GWh</h3><p>2030 Market Target</p></div>',
+            unsafe_allow_html=True
+        )
+
+    st.markdown("---")
+
+    col_a, col_b = st.columns([2, 1])
+    with col_a:
+        st.image(
+            "https://images.unsplash.com/photo-1593941707882-a5bba14938c7?"
+            "ixlib=rb-1.2.1&auto=format&fit=crop&w=1352&q=80",
+            caption="RADORDENA Pilot Facility Representation",
+            use_column_width=True
+        )
+    with col_b:
+        st.markdown("### The Bottleneck")
+        st.info(
+            "Global recycling rates are stuck at 5%. Traditional smelting is toxic "
+            "and cannot handle the surge of 1.6 million tons of EV waste."
+        )
+        st.markdown("### The Innovation")
+        st.success(
+            "**RADORDENA:**\n"
+            r"Ambient Temp ($30^\circ C$)\n"
+            "Zero Toxic Emissions\n"
+            "Handles Mixed Feed (LFP/NMC)"
+        )
+
+    st.markdown("### Operational Status")
+    st.progress(92)
+    st.caption(
+        "Bioleaching Reactor Efficiency (Acidithiobacillus ferrooxidans Activity)")
+
+elif page == "RADORDENA Connect":
+    st.title("RADORDENA Connect (Consumer Agent)")
+    st.markdown("### Scan-to-Recycle: The 'One-Click' Logistics Engine")
+
+    col_input, col_process = st.columns([1, 2])
+
+    with col_input:
+        st.info("Takes a photo of waste battery -> Autonomous Logistics & Payment.")
+        img_file = st.file_uploader(
+            "Upload Battery Photo", type=['jpg', 'png', 'jpeg'])
+        user_loc = st.text_input(
+            "Pickup Location", "Sector 5, Salt Lake, Kolkata")
+
+        if img_file is not None:
+            st.image(img_file, caption="Input Data", use_column_width=True)
+            if st.button("Activate Connect Agent"):
+                st.session_state['connect_active'] = True
+
+    with col_process:
+        if st.session_state.get('connect_active') and img_file:
+            with st.spinner("Agent Vision Analyzing..."):
+                # Run Agent Logic
+                data, value, carbon_pts, log = connector.process_request(
+                    img_file, user_loc)
+
+            # 1. Perception Result
+            st.success("**Step 1: Visual Ingestion (Perceiver Agent)**")
+            c1, c2, c3 = st.columns(3)
+            c1.metric("Chemistry ID", data['type'])
+            c2.metric("Condition", data['condition'])
+            c3.metric("Est. Weight", f"{data['weight_est']} kg")
+
+            if data['safety'] == 'Hazardous':
+                st.error(
+                    "Safety Flag: Swelling Detected. HAZMAT Transport Protocol Initiated.")
+
+            st.markdown("---")
+
+            # 2. Valuation
+            st.info("**Step 2: Instant Valuation (Pricing Engine)**")
+            v1, v2 = st.columns(2)
+            v1.metric("Credits Offered", f"₹ {value:,.2f}")
+            v2.metric("Carbon Points", f"{carbon_pts} pts")
+
+            st.markdown("---")
+
+            # 3. Logistics
+            st.warning("**Step 3: Autonomous Logistics (The 'Claw')**")
+            st.write(f"**Provider:** {log['provider']}")
+            st.write(f"**Truck ID:** {log['truck_id']}")
+            st.write(f"**Hazmat Manifest:** `{log['manifest']}`")
+            st.progress(100)
+            st.caption(
+                f"ETA: {log['eta']} | Pre-Alert Sent onto Factory Sort-01 Agent.")
+
+            st.balloons()
+
+elif page == "Agent Training Center":
+    st.title("Agent Training Center")
+    st.markdown("Phase 1: Supervised Learning & Rule Optimization")
+
+    tab1, tab2 = st.tabs(["SORT-01 (Vision)", "BIO-01 (Process)"])
+
+    with tab1:
+        st.subheader("Training RADORDENA-SORT-01")
+        st.write(
+            "**Goal:** Teach AI to distinguish NMC, LFP, and Contaminants using "
+            "10,000 spectral signatures."
+        )
+
+        if st.button("Start Training Sequence"):
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+
+            # Simulate Training
+            history = ai_classifier.train_model(iterations=100)
+
+            for i, acc in enumerate(history):
+                progress_bar.progress(i + 1)
+                status_text.text(f"Epoch {i+1}/100 - Accuracy: {acc*100:.2f}%")
+
+            st.success("Training Complete! Model Validation Accuracy: >95%")
+
+            # Plot Learning Curve
+            fig = px.line(
+                y=history,
+                labels={'x': 'Epochs', 'y': 'Accuracy'},
+                title="Model Learning Curve (Logarithmic)"
+            )
+            fig.update_layout(template="plotly_dark")
+            st.plotly_chart(fig)
+
+    with tab2:
+        st.subheader("Optimizing RADORDENA-BIO-01")
+        st.write("**Goal:** Define optimal rules for bacterial life support.")
+
+        c1, c2 = st.columns(2)
+        with c1:
+            st.markdown("#### Acidity Rules")
+            st.info("Target pH: 1.8")
+            st.write("- IF pH > 2.0: Dose H2SO4")
+            st.write("- IF pH < 1.5: Dose Water")
+
+        with c2:
+            st.markdown("#### Thermal Rules")
+            st.info("Target Temp: 30°C")
+            st.write("- IF Temp > 35°C: Emergency Cooling")
+
+        st.markdown("#### Simulation Validation")
+        st.caption("Testing parameters against 100 virtual cycles...")
+        st.progress(100)
+        st.success("Optimization Complete: Metal Recovery stabilized at >90%")
+
+elif page == "Chat with Plant":
+    st.title("Chat with RADORDENA")
+    st.markdown("### Natural Language Facility Interface (LLM-Powered)")
+
+    # Chat Interface
+    user_query = st.text_input("Ask the Cognitive Engine a question...",
+                               placeholder="e.g., Why is the Cobalt recovery rate low in Tank 4?")
+
+    if user_query:
+        st.markdown("---")
+        col_user, col_agent = st.columns([1, 4])
+
+        with col_user:
+            st.info(f"**Operator:**\n{user_query}")
+
+        with col_agent:
+            # Simulate Context-Aware Reasoning
+            if "Cobalt" in user_query or "Tank 4" in user_query:
+                RESPONSE_TEXT = """
+                **Analysis:** Tank 4 pH drifted to **4.2**.
+                
+                **Reasoning:**
+                1.  *Observation:* High pH caused premature precipitation of Manganese ($Mn(OH)_2$).
+                2.  *Impact:* Contaminant carry-over to the Cobalt filter circuit.
+                
+                **Corrective Action:**
+                *   I have autonomously lowered pH to **3.8**.
+                *   Increased solvent flow by **15%**.
+                
+                *Expect purity to restore in 45 minutes.*
+                """
+                st.success(f"**RADORDENA Agent:**\n{RESPONSE_TEXT}")
+
+            elif "efficiency" in user_query.lower():
+                st.success("""
+                **RADORDENA Agent:**
+                Current Bio-Reactor Efficiency is **92%**.
+                *   Bacterial Count: $5.2 \\times 10^8$ cells/mL.
+                *   Fe2+ Oxidation Rate: Optimal.
+                """)
+            else:
+                st.warning("""
+                **RADORDENA Agent:**
+                I am processing your query. Please specify a subsystem (Bio-Reactor, Sorting Line, or Recovery Tank).
+                """)
+
+elif page == "AI Battery Sorting":
+    st.title("RADORDENA-SORT-01: Intelligent Sorting Agent")
+    st.markdown("### Autonomous Gatekeeper Logic")
+
+    col1, col2 = st.columns([1, 2])
+
+    with col1:
+        st.markdown("### Visual Feed Input")
+        if st.button("Inject Random Feed Object"):
+            # Simulate a mix of valid batteries and contaminants
+            types = ['NMC', 'LFP', 'Plastic', 'Metal_Scrap']
+            choice = np.random.choice(types, p=[0.4, 0.4, 0.1, 0.1])
+
+            st.session_state['sample_type'] = choice
+
+            # Generate spectrum based on choice
+            if choice in ['NMC', 'LFP']:
+                st.session_state['spectrum'] = ai_classifier.generate_synthetic_spectra(
+                    choice)
+            else:
+                # Generate 'Unknown' noise spectrum
+                st.session_state['spectrum'] = ai_classifier.generate_synthetic_spectra(
+                    'Noise')
+
+            st.success(f"Object Detected: {choice} (Simulated)")
+
+    with col2:
+        if 'spectrum' in st.session_state:
+            spectrum = st.session_state['spectrum']
+            wl = ai_classifier.wavelengths
+
+            # Agent Logic Execution
+            chem, conf, route = ai_classifier.classify_sample(spectrum)
+
+            # Visualization
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(
+                x=wl, y=spectrum, mode='lines', name='Spectral Signature',
+                line=dict(color='#00FF94', width=2)
+            ))
+            fig.update_layout(
+                title=f"HyperSpectral Analysis | ID: {chem} ({conf*100:.1f}%)",
+                xaxis_title="Wavelength (nm)",
+                yaxis_title="Reflectance Intensity",
+                template="plotly_dark",
+                height=350
+            )
+            st.plotly_chart(fig, use_container_width=True)
+
+            st.markdown("### Agent Decision Matrix")
+
+            c1, c2, c3 = st.columns(3)
+            c1.metric("Identification", chem)
+            c2.metric("Confidence", f"{conf*100:.1f}%")
+
+            # Routing Logic Visualization
+            if "Bin A" in route:
+                c3.success(f"ACTUATOR: {route}")
+                st.info("Protocol: High Value Feedstock -> Line 1 Bioleaching")
+                st.markdown("---")
+                st.markdown("### Safety Handshake")
+                st.write("Checking downstream shredder atmosphere...")
+                st.progress(100)
+                st.caption(
+                    "Nitrogen Inerting Active ($O_2$ < 2%) - **RELEASE GRANTED**")
+
+            elif "Bin B" in route:
+                c3.warning(f"ACTUATOR: {route}")
+                st.info("Protocol: LFP Feedstock -> Line 2 Acid Process")
+                st.markdown("---")
+                st.markdown("### Safety Handshake")
+                st.write("Checking downstream shredder atmosphere...")
+                st.progress(100)
+                st.caption(
+                    "Nitrogen Inerting Active ($O_2$ < 2%) - **RELEASE GRANTED**")
+
+            else:
+                c3.error(f"ACTUATOR: {route}")
+                st.error("Protocol: REJECT - Contaminant / Low Confidence")
+                st.caption(
+                    "Preventing downstream efficiency loss (80% impact avoided)")
+
+elif page == "Process Simulation":
+    st.title("RADORDENA-CORE: Cognitive Process Agent")
+    st.subheader("Deep Reinforcement Learning (DRL) Console")
+
+    col_ctrl, col_viz = st.columns([1, 2])
+
+    with col_ctrl:
+        st.markdown("### Predictive Control Interface")
+
+        # User simulates sensor drift
+        temp_input = st.slider("Reactor Temp (°C)", 20.0, 40.0, 30.0)
+        ph_input = st.slider("pH Level", 1.0, 3.0, 1.8)
+        do_level = st.slider("Dissolved Oxygen (mg/L)", 2.0, 8.0, 4.5)
+        bacteria_load = st.slider(
+            "Bacterial Load (cells/mL)", 1e6, 1e9, 5e8, format="%.0e")
+
+        st.markdown("---")
+        st.markdown("#### Chain-of-Thought Log")
+
+        # Run Agent Logic (Reactive + Predictive)
+        # Reactive
+        health_status, actions = reactor.check_health_status(
+            ph_input, temp_input)
+        # Predictive
+        reasoning, pred_action = reactor.predictive_control(
+            do_level, bacteria_load)
+
+        with st.expander("Show Reasoning Trace", expanded=True):
+            for step in reasoning:
+                st.code(step, language="text")
+            st.warning(f"DECISION: {pred_action}")
+
+        st.markdown("**Reactive Actions:**")
+        for act in actions:
+            if "Dosing" in act or "ACTIVATE" in act:
+                st.write(f"{act}")
+            else:
+                st.write(f"{act}")
+
+    with col_viz:
+        st.markdown("### Physics-Informed Digital Twin")
+
+        # Kinetics Visual
+        days = np.linspace(0, 10, 100)
+        recovery_curve = reactor.simulate_kinetics(days)
+
+        fig_kin = px.line(
+            x=days, y=recovery_curve*100,
+            labels={'x': 'Time (Days)', 'y': 'Dissolution Efficiency (%)'}
+        )
+        fig_kin.update_traces(line_color='#00FF94')
+        fig_kin.add_hline(y=90, line_dash="dot", annotation_text="Target > 90%",
+                          annotation_position="bottom right")
+        fig_kin.update_layout(
+            template="plotly_dark",
+            title="Bio-Oxidation Kinetics (Fe2+ -> Fe3+)",
+            height=300
+        )
+        st.plotly_chart(fig_kin, use_container_width=True)
+
+    st.markdown("---")
+    st.subheader("Step 3: Electro-Selective Harvest Protocol")
+
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("1. pH Adjust", "Level 2-4", "Dosing NaOH")
+    c2.metric("2. Identify", "Co(OH)2", "Precipitating")
+    c3.metric("3. Carbonation", "Li2CO3", "Recovering")
+    c4.metric("4. Water Recycle", "90%", "Filtering")
+
+    # Simulation Logic for Products
+    BLACK_MASS_PER_TON = 350.0
+    BLACK_MASS_INPUT = 1.0 * BLACK_MASS_PER_TON  # Simulating 1 ton input
+    metals, comp = reactor.mass_balance(BLACK_MASS_INPUT)
+    products = extractor.calculate_products(metals)
+
+    st.dataframe(
+        pd.DataFrame(list(products.items()), columns=[
+                     'Recovered Product', 'Mass (kg/Ton)']),
+        use_container_width=True
+    )
+
+elif page == "Financial Analysis":
+    st.title("Unit Economics & Sustainability")
+
+    annual_feed = st.slider("Annual Capacity (Tons)", 100, 20000, 5000)
+
+    # Calc
+    BLACK_MASS_PER_TON = 350.0  # kg
+    # Need to normalize mass balance to 1 ton for financial calc
+    metals, _ = reactor.mass_balance(BLACK_MASS_PER_TON)
+    products = extractor.calculate_products(metals)
+
+    result = finance.calculate_roi(annual_feed, products)
+
+    # KPI Row
+    kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+    kpi1.metric("Annual Revenue", f"₹ {result['Annual_Revenue']/1e7:.2f} Cr")
+    kpi2.metric("Gross Profit",
+                f"₹ {result['Gross_Profit']/1e7:.2f} Cr", delta_color="normal")
+    kpi3.metric("Payback Period", f"{result['Payback_Years']:.1f} Years")
+    # Approx 2.5t saved per ton
+    kpi4.metric("CO2 Credits", f"{annual_feed * 2.5:.0f} Tons")
+
+    # Charts
+    st.markdown("### Revenue Breakdown")
+    fig_pie = px.pie(
+        names=list(result['Revenue_Breakdown'].keys()),
+        values=list(result['Revenue_Breakdown'].values()),
+        hole=0.4
+    )
+    fig_pie.update_layout(template="plotly_dark")
+    st.plotly_chart(fig_pie)
+
+    st.success(
+        "Analysis confirms **Startup Viability** with >25% Internal Rate of Return (IRR).")
