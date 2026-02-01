@@ -1,6 +1,6 @@
 # RADORDENA Digital Twin Platform
 
-**RADORDENA: Turning Urban Waste into Strategic Energy Assets**
+### RADORDENA: Turning Urban Waste into Strategic Energy Assets
 
 > _AI & Biotechnology Integrated Recycling_
 
@@ -18,29 +18,30 @@ RADORDENA is an AI-driven "Digital Twin" for autonomous bio-hydrometallurgy.
 
 ## Modules (The Solution)
 
-1.  **Intelligent Sorting (The "Eyes")**:
-    - Simulates Hyperspectral Imaging (400-1000 nm) to identify NMC vs LFP chemistries with **95% accuracy**.
-    - Includes safety protocols for NaCl discharge and N2 shredding.
+1. **Intelligent Sorting (The "Eyes")**:
+   - Simulates Hyperspectral Imaging (400-1000 nm) to identify NMC vs LFP chemistries with **95% accuracy**.
+   - Includes safety protocols for NaCl discharge and N2 shredding.
 
-2.  **Bioleaching (The "Core")**:
-    - Simulates _Acidithiobacillus ferrooxidans_ microbial factories operating at **30°C** (Ambient).
-    - Models >90% recovery of Critical Minerals utilizing regenerative $Fe^{3+}$ oxidation.
+2. **Bioleaching (The "Core")**:
+   - Simulates _Acidithiobacillus ferrooxidans_ microbial factories operating at **30°C** (Ambient).
+   - Models >90% recovery of Critical Minerals utilizing regenerative $Fe^{3+}$ oxidation.
 
-3.  **Electro-Recovery (The "Harvest")**:
-    - Simulates sequential electro-selective extraction of high-purity salts ($Li_2CO_3$).
-    - Models circular integration (Water recycle >90%).
+3. **Electro-Recovery (The "Harvest")**:
+   - Simulates sequential electro-selective extraction of high-purity salts ($Li_2CO_3$).
+   - Models circular integration (Water recycle >90%).
 
-4.  **Financial Intelligence**:
-    - Calculates Unit Economics: **$5-7/kWh** cost (30% lower than Pyro).
-    - Models Profit Margin >60% and ROI of **2-3 Years**.
+4. **Financial Intelligence**:
+   - Calculates Unit Economics: **$5-7/kWh** cost (30% lower than Pyro).
+   - Models Profit Margin >60% and ROI of **2-3 Years**.
 
 ## Installation
 
-1.  Ensure Python 3.8+ is installed.
-2.  Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+1. Ensure Python 3.8+ is installed.
+2. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
 
 ## Usage
 
