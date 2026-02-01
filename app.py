@@ -357,6 +357,131 @@ ai_classifier = HyperspectralClassifier()
 finance = FinancialModel()
 connector = ConnectAgent()
 
+
+# Diagnostic response generation function
+def generate_agent_response(query):
+    """Generate contextual diagnostic response based on query keywords"""
+    query_lower = query.lower()
+
+    if any(word in query_lower for word in ["cobalt", "co", "tank 4", "recovery"]):
+        return """**Root Cause Analysis: Cobalt Recovery**
+
+**Issue Detected:** Cobalt recovery in Tank 4 dropped to 67% (Target: >90%)
+
+**Chain-of-Thought Reasoning:**
+1. **Sensor Reading:** pH drifted from 1.8 → 4.2 over last 6 hours
+2. **Chemical Impact:** At pH > 3.5, Manganese precipitates as Mn(OH)₂
+3. **Contamination:** Mn carry-over to Co filtration circuit → reduced selectivity
+4. **Bacterial Activity:** *A. ferrooxidans* Fe²⁺ oxidation rate dropped 40%
+
+**Autonomous Corrective Actions:**
+[COMPLETE] Dosed 2.5L H₂SO₄ (0.5M) → pH now 3.8
+[COMPLETE] Increased air sparging (+15%) → Fe²⁺/Fe³⁺ regeneration
+[COMPLETE] Diverted Mn-rich stream to precipitation tank
+
+**Prediction:** Co purity will restore to >92% in 45 minutes. Monitoring via HPLC."""
+
+    elif any(word in query_lower for word in ["efficiency", "performance", "status"]):
+        return """**Live System Status Report**
+
+**Bio-Reactor Core (Tank 1-4):**
+- **Overall Efficiency:** 92.4% ± 2.1%
+- **Bacterial Load:** 5.2×10⁸ cells/mL (Optimal range)
+- **Fe²⁺ Oxidation Rate:** 0.82 mmol/L/hr
+- **Dissolved O₂:** 4.3 mg/L (Target: 4.0-5.0)
+
+**Metal Recovery Stats (24hr moving average):**
+- **Lithium (Li):** 94.2% → Li₂CO₃
+- **Cobalt (Co):** 89.1% → Co(OH)₂
+- **Nickel (Ni):** 91.7% → NiSO₄
+- **Manganese (Mn):** 88.5% → MnCO₃
+
+**Predictive Maintenance Alert:**
+[WARNING] Filter F-03 pressure differential +12% (normal: <10%)
+→ Recommend backwash cycle in next 6 hours"""
+
+    elif any(word in query_lower for word in ["temperature", "temp", "cooling", "heating"]):
+        return """**Thermal Management Analysis**
+
+**Current State:**
+- **Tank 1-3:** 29.8°C [NOMINAL] (Target: 30°C ± 1°C)
+- **Tank 4:** 33.2°C [ELEVATED]
+
+**Arrhenius Impact (Tank 4):**
+Expected bacterial activity: k = A×exp(-Ea/RT)
+→ At 33°C: -18% activity vs. optimal 30°C
+
+**Corrective Strategy:**
+1. Activated chiller loop (proportional control: P=2.5W/°C)
+2. Reduced feed rate from 120 L/hr → 100 L/hr
+3. Monitoring exothermic oxidation: 4Fe²⁺ + O₂ → 4Fe³⁺ (ΔH = -840 kJ/mol)
+
+**ETA to stabilization:** 15 minutes"""
+
+    elif any(word in query_lower for word in ["ph", "acid", "acidity", "alkaline"]):
+        return """**pH Control System Status**
+
+**Current pH Profile:**
+- Tank 1: 1.82 [NOMINAL]
+- Tank 2: 1.79 [NOMINAL]
+- Tank 3: 1.85 [NOMINAL]
+- Tank 4: 3.21 [ALERT - DRIFTING HIGH]
+
+**RL Agent Decision:**
+IF pH > 2.0 → Dose H₂SO₄ (0.5M)
+→ **Action:** Injecting 1.2L H₂SO₄ to Tank 4
+
+**Bacterial Sensitivity:**
+*Acidithiobacillus ferrooxidans* optimal pH: 1.5-2.0
+- At pH 3.0: Growth rate drops 60%
+- At pH 1.2: Acid stress (reversible inhibition)
+
+**Target restoration:** 12 minutes (feedback loop: 50ms latency)"""
+
+    elif any(word in query_lower for word in ["bacteria", "microbe", "ferrooxidans"]):
+        return """**Bacterial Colony Health Assessment**
+
+**Species:** *Acidithiobacillus ferrooxidans* (Chemolithoautotroph)
+
+**Population Dynamics:**
+- **Cell Density:** 5.2×10⁸ cells/mL
+- **Viability:** 94.1% (Flow cytometry)
+- **Generation Time:** 8.2 hours
+
+**Metabolic Activity:**
+Energy source: Fe²⁺ → Fe³⁺ + e⁻
+Carbon fixation: CO₂ → Biomass (Calvin cycle)
+
+**Nutritional Status:**
+[NOMINAL] NH₄⁺: 120 mg/L (Sufficient)
+[NOMINAL] PO₄³⁻: 45 mg/L (Sufficient)
+[NOMINAL] Trace metals (Mg, K, Ca): Within range
+
+**Stress Indicators:**
+[WARNING] Slight oxidative stress detected (ΔpH spike, Tank 4)
+→ Enhanced monitoring for next 2 hours"""
+
+    else:
+        return f"""**Diagnostic Query Interface**
+
+**System Response:**
+Processing query: "{query}"
+
+**Available Diagnostic Modules:**
+- Process Diagnostics: Parameter deviation analysis
+- Troubleshooting: Recovery rate optimization
+- Efficiency Analysis: Performance metrics
+- Predictive Maintenance: Equipment service scheduling
+- Real-time Monitoring: Subsystem status
+
+**Monitored Subsystems:**
+1. Bio-Reactor Tanks (1-4): pH, Temperature, DO, bacterial load
+2. Sorting Line: Vision AI classification accuracy
+3. Recovery Tanks: Metal precipitation, filtration efficiency
+
+Please specify a subsystem (Bio-Reactor, Sorting Line, Recovery Tank) or parameter (pH, temperature, efficiency, cobalt)."""
+
+
 if page == "Dashboard Overview":
     st.title("RADORDENA Intelligence Hub")
     st.markdown("### Turning Urban Waste into Strategic Energy Assets")
@@ -667,128 +792,6 @@ elif page == "Chat with Plant":
 
         # Rerun to update chat display
         st.rerun()
-
-
-def generate_agent_response(query):
-    """Generate contextual AI response based on query keywords"""
-    query_lower = query.lower()
-
-    # Context-aware response generation
-    if any(word in query_lower for word in ["cobalt", "co", "tank 4", "recovery"]):
-        return """**🔬 Root Cause Analysis**
-
-**Issue Detected:** Cobalt recovery in Tank 4 dropped to 67% (Target: >90%)
-
-**Chain-of-Thought Reasoning:**
-1. **Sensor Reading:** pH drifted from 1.8 → 4.2 over last 6 hours
-2. **Chemical Impact:** At pH > 3.5, Manganese precipitates as Mn(OH)₂
-3. **Contamination:** Mn carry-over to Co filtration circuit → reduced selectivity
-4. **Bacterial Activity:** *A. ferrooxidans* Fe²⁺ oxidation rate dropped 40%
-
-**Autonomous Corrective Actions Taken:**
-[COMPLETE] Dosed 2.5L H₂SO₄ (0.5M) → pH now 3.8
-[COMPLETE] Increased air sparging (+15%) → Fe²⁺/Fe³⁺ regeneration
-[COMPLETE] Diverted Mn-rich stream to precipitation tank
-
-**Prediction:** Co purity will restore to >92% in **45 minutes**. Monitoring real-time via HPLC."""
-
-    elif any(word in query_lower for word in ["efficiency", "performance", "status"]):
-        return """**⚙️ Live System Status**
-
-**Bio-Reactor Core (Tank 1-4):**
-- **Overall Efficiency:** 92.4% ± 2.1%
-- **Bacterial Load:** 5.2×10⁸ cells/mL (Optimal range)
-- **Fe²⁺ Oxidation Rate:** 0.82 mmol/L/hr
-- **Dissolved O₂:** 4.3 mg/L (Target: 4.0-5.0)
-
-**Metal Recovery Stats (24hr moving average):**
-- **Lithium (Li):** 94.2% → Li₂CO₃
-- **Cobalt (Co):** 89.1% → Co(OH)₂
-- **Nickel (Ni):** 91.7% → NiSO₄
-- **Manganese (Mn):** 88.5% → MnCO₃
-
-**Predictive Maintenance Alert:**
-[WARNING] Filter F-03 pressure differential +12% (normal: <10%)
-→ Recommend backwash cycle in next 6 hours"""
-
-    elif any(word in query_lower for word in ["temperature", "temp", "cooling", "heating"]):
-        return """**🌡️ Thermal Management Analysis**
-
-**Current State:**
-- **Tank 1-3:** 29.8°C [NOMINAL] (Target: 30°C ± 1°C)
-- **Tank 4:** 33.2°C [ELEVATED]
-
-**Arrhenius Impact (Tank 4):**
-Expected bacterial activity: k = A×exp(-Ea/RT)
-→ At 33°C: **-18% activity** vs. optimal 30°C
-
-**Corrective Strategy:**
-1. **Activated chiller loop** (proportional control: P=2.5W/°C)
-2. **Reduced feed rate** from 120 L/hr → 100 L/hr
-3. **Monitoring exothermic oxidation:** 4Fe²⁺ + O₂ → 4Fe³⁺ (ΔH = -840 kJ/mol)
-
-**ETA to stabilization:** 15 minutes"""
-
-    elif any(word in query_lower for word in ["ph", "acid", "acidity", "alkaline"]):
-        return """**🧪 pH Control System**
-
-**Current pH Profile:**
-- Tank 1: 1.82 ✅
-- Tank 2: 1.79 ✅
-- Tank 3: 1.85 ✅
-- Tank 4: 3.21 ⚠️ (Drifting high)
-
-**RL Agent Decision:**
-IF pH > 2.0 → Dose H₂SO₄ (0.5M)
-→ **Action:** Injecting 1.2L H₂SO₄ to Tank 4
-
-**Bacterial Sensitivity:**
-*Acidithiobacillus ferrooxidans* optimal pH: 1.5-2.0
-- At pH 3.0: Growth rate drops 60%
-- At pH 1.2: Acid stress (reversible inhibition)
-
-**Target restoration:** 12 minutes (feedback loop: 50ms latency)"""
-
-    elif any(word in query_lower for word in ["bacteria", "microbe", "ferrooxidans"]):
-        return """**🦠 Bacterial Colony Health**
-
-**Species:** *Acidithiobacillus ferrooxidans* (Chemolithoautotroph)
-
-**Population Dynamics:**
-- **Cell Density:** 5.2×10⁸ cells/mL
-- **Viability:** 94.1% (Flow cytometry)
-- **Generation Time:** 8.2 hours
-
-**Metabolic Activity:**
-Energy source: Fe²⁺ → Fe³⁺ + e⁻
-Carbon fixation: CO₂ → Biomass (Calvin cycle)
-
-**Nutritional Status:**
-[NOMINAL] NH₄⁺: 120 mg/L (Sufficient)
-[NOMINAL] PO₄³⁻: 45 mg/L (Sufficient)
-[NOMINAL] Trace metals (Mg, K, Ca): Within range
-
-**Stress Indicators:**
-[WARNING] Slight oxidative stress detected (ΔpH spike, Tank 4)
-→ Enhanced monitoring for next 2 hours"""
-
-    else:
-        return f"""**🤖 Processing Query:** "{query}"
-
-**Cognitive Engine Analysis:**
-I can help you with:
-- **Process Diagnostics**: Why is X parameter deviating?
-- **Troubleshooting**: How to fix low recovery rates?
-- **Optimization**: What settings maximize efficiency?
-- **Predictive Maintenance**: When should I service equipment?
-- **Real-time Monitoring**: Current status of all subsystems
-
-**Subsystems I Monitor:**
-1. **Bio-Reactor Tanks** (1-4): pH, Temp, DO, bacterial load
-2. **Sorting Line**: Vision AI classification accuracy
-3. **Recovery Tanks**: Metal precipitation, filtration efficiency
-
-Please specify a **subsystem** (Bio-Reactor, Sorting Line, Recovery Tank) or ask about a specific **parameter** (pH, temperature, efficiency, cobalt, etc.)."""
 
 
 elif page == "AI Battery Sorting":
