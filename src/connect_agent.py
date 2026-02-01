@@ -4,6 +4,13 @@ Connect Agent module for handling Scan-to-Recycle logic.
 import random
 import datetime
 
+try:
+    from transformers import AutoTokenizer, AutoModelForCausalLM
+    import torch
+    CLOUD_MODE = False
+except ImportError:
+    CLOUD_MODE = True
+
 
 class ConnectAgent:
     """

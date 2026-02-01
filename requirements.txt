@@ -9,6 +9,5 @@ shimmy
 transformers
 accelerate
 tiktoken
-cpm_kernels
 optimum
-auto-gptq
+# auto-gptq # Removed for Cloud Compatibility (Breaks free tier builds)
