@@ -230,12 +230,114 @@ st.markdown("""
         border-left: 4px solid #00ff94;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
+    
+    /* Mobile Optimization */
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 2rem !important;
+        }
+        
+        h2 {
+            font-size: 1.5rem !important;
+        }
+        
+        .main .block-container {
+            padding: 1rem;
+        }
+        
+        .metric-card {
+            padding: 20px;
+            margin-bottom: 1rem;
+        }
+        
+        [data-testid="stMetricValue"] {
+            font-size: 1.75rem !important;
+        }
+        
+        .stButton>button {
+            width: 100%;
+            padding: 1rem;
+            font-size: 0.95rem;
+        }
+        
+        /* Stack columns on mobile */
+        [data-testid="column"] {
+            width: 100% !important;
+            margin-bottom: 1rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 1.75rem !important;
+        }
+        
+        section[data-testid="stSidebar"] {
+            width: 100% !important;
+        }
+    }
+    
+    /* Smooth Scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Loading Animation */
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    .stSpinner > div {
+        border-color: #00ff94 !important;
+        animation: pulse 1.5s ease-in-out infinite;
+    }
+    
+    /* File Uploader */
+    [data-testid="stFileUploader"] {
+        background: rgba(26, 35, 50, 0.4);
+        border: 2px dashed rgba(0, 255, 148, 0.3);
+        border-radius: 15px;
+        padding: 2rem;
+        transition: all 0.3s;
+    }
+    
+    [data-testid="stFileUploader"]:hover {
+        border-color: rgba(0, 255, 148, 0.6);
+        background: rgba(26, 35, 50, 0.6);
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# Sidebar
-st.sidebar.image("https://img.icons8.com/nolan/96/recycling.png", width=80)
-st.sidebar.title("RADORDENA Control")
+# Sidebar with Custom Logo
+st.sidebar.markdown("""
+<div style="text-align: center; padding: 1.5rem 0 1rem 0;">
+    <svg width="80" height="80" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00ff94;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:1" />
+            </linearGradient>
+        </defs>
+        <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGrad)" stroke-width="3" opacity="0.4"/>
+        <circle cx="50" cy="50" r="35" fill="none" stroke="url(#logoGrad)" stroke-width="2" opacity="0.6"/>
+        <rect x="40" y="30" width="20" height="40" rx="3" fill="url(#logoGrad)" opacity="0.8"/>
+        <rect x="35" y="25" width="30" height="3" rx="1.5" fill="url(#logoGrad)"/>
+        <circle cx="32" cy="45" r="3" fill="#00ff94" opacity="0.6"/>
+        <circle cx="50" cy="45" r="3" fill="#00d4ff" opacity="0.6"/>
+        <circle cx="68" cy="45" r="3" fill="#00ff94" opacity="0.6"/>
+        <circle cx="32" cy="60" r="3" fill="#00d4ff" opacity="0.6"/>
+        <circle cx="50" cy="60" r="3" fill="#00ff94" opacity="0.6"/>
+        <circle cx="68" cy="60" r="3" fill="#00d4ff" opacity="0.6"/>
+    </svg>
+</div>
+<h2 style="text-align: center; font-size: 1.5rem; font-weight: 700; 
+    background: linear-gradient(135deg, #00ff94 0%, #00d4ff 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;">RADORDENA</h2>
+<p style="text-align: center; color: rgba(255,255,255,0.6); font-size: 0.85rem; 
+    margin-bottom: 1.5rem; font-weight: 500;">Intelligence Hub</p>
+""", unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
 # Navigation
