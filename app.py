@@ -478,7 +478,7 @@ elif page == "Agent Training Center":
     st.markdown(
         "*Training AI agents on real physics-based datasets for autonomous operation*")
 
-    tab1, tab2 = st.tabs(["🔬 SORT-01 (Vision)", "⚗️ BIO-01 (Process)"])
+    tab1, tab2 = st.tabs(["SORT-01 (Vision Agent)", "BIO-01 (Process Agent)"])
 
     with tab1:
         st.subheader("Training RADORDENA-SORT-01: Hyperspectral Classifier")
@@ -531,7 +531,7 @@ LCO:  LiCoO₂              → Peak @ 480nm, 920nm
                     status_text.text(
                         f"Epoch {i+1}/100 - Accuracy: {acc*100:.2f}%")
 
-                st.success("✅ Training Complete! Validation mAP@50: **96.2%**")
+                st.success("Training Complete | Validation mAP@50: 96.2%")
 
                 # Plot Learning Curve
                 fig = px.line(
@@ -568,7 +568,7 @@ LCO:  LiCoO₂              → Peak @ 480nm, 920nm
 
         c1, c2 = st.columns(2)
         with c1:
-            st.markdown("##### 🧪 Acidity Rules")
+            st.markdown("##### Acidity Control Rules")
             st.info("**Target pH: 1.8** (Optimal for bacterial activity)")
             st.latex(
                 r"\text{IF } pH > 2.0: \quad \text{Dose } H_2SO_4 \text{ (0.5M)}")
@@ -577,7 +577,7 @@ LCO:  LiCoO₂              → Peak @ 480nm, 920nm
             st.caption("Feedback loop controlled by RL agent with 50ms latency")
 
         with c2:
-            st.markdown("##### 🌡️ Thermal Rules")
+            st.markdown("##### Thermal Control Rules")
             st.info("**Target Temp: 30°C** (Mesophilic bacteria)")
             st.latex(
                 r"\text{IF } T > 35°C: \quad P_{cooling} = k(T - T_{set})")
@@ -604,10 +604,10 @@ LCO:  LiCoO₂              → Peak @ 480nm, 920nm
                            delta="Converged", delta_color="off")
 
 elif page == "Chat with Plant":
-    st.title("Chat with RADORDENA")
-    st.markdown("### Natural Language Facility Interface (Cognitive AI)")
+    st.title("RADORDENA Diagnostic Interface")
+    st.markdown("### Natural Language Facility Control System")
     st.caption(
-        "💡 Ask about reactor status, troubleshooting, or process optimization")
+        "Query reactor status, troubleshooting protocols, or process optimization parameters")
 
     # Initialize conversation history
     if 'messages' not in st.session_state:
@@ -616,10 +616,10 @@ elif page == "Chat with Plant":
     # Display conversation history
     for msg in st.session_state.messages:
         if msg['role'] == 'user':
-            with st.chat_message("user", avatar="👤"):
+            with st.chat_message("user", avatar="OP"):
                 st.markdown(msg['content'])
         else:
-            with st.chat_message("assistant", avatar="🤖"):
+            with st.chat_message("assistant", avatar="AI"):
                 st.markdown(msg['content'])
 
     # Chat input
@@ -628,20 +628,20 @@ elif page == "Chat with Plant":
         st.session_state.messages.append({"role": "user", "content": prompt})
 
         # Display user message
-        with st.chat_message("user", avatar="👤"):
+        with st.chat_message("user", avatar="OP"):
             st.markdown(prompt)
 
         # Generate AI response with streaming simulation
-        with st.chat_message("assistant", avatar="🤖"):
+        with st.chat_message("assistant", avatar="AI"):
             message_placeholder = st.empty()
 
-            # Thinking stages
+            # Processing stages
             thinking_stages = [
-                "🔍 Analyzing query...",
-                "📊 Querying digital twin sensors...",
-                "🧠 Processing with neuro-symbolic reasoning...",
-                "⚙️ Accounting for thermodynamic constraints...",
-                "📈 Generating recommendations..."
+                "[1/5] Analyzing query structure...",
+                "[2/5] Querying digital twin sensor network...",
+                "[3/5] Processing via neuro-symbolic inference...",
+                "[4/5] Validating thermodynamic constraints...",
+                "[5/5] Generating diagnostic recommendation..."
             ]
 
             import time
@@ -686,9 +686,9 @@ def generate_agent_response(query):
 4. **Bacterial Activity:** *A. ferrooxidans* Fe²⁺ oxidation rate dropped 40%
 
 **Autonomous Corrective Actions Taken:**
-✅ Dosed 2.5L H₂SO₄ (0.5M) → pH now 3.8
-✅ Increased air sparging (+15%) → Fe²⁺/Fe³⁺ regeneration
-✅ Diverted Mn-rich stream to precipitation tank
+[COMPLETE] Dosed 2.5L H₂SO₄ (0.5M) → pH now 3.8
+[COMPLETE] Increased air sparging (+15%) → Fe²⁺/Fe³⁺ regeneration
+[COMPLETE] Diverted Mn-rich stream to precipitation tank
 
 **Prediction:** Co purity will restore to >92% in **45 minutes**. Monitoring real-time via HPLC."""
 
@@ -708,15 +708,15 @@ def generate_agent_response(query):
 - **Manganese (Mn):** 88.5% → MnCO₃
 
 **Predictive Maintenance Alert:**
-⚠️ Filter F-03 pressure differential +12% (normal: <10%)
+[WARNING] Filter F-03 pressure differential +12% (normal: <10%)
 → Recommend backwash cycle in next 6 hours"""
 
     elif any(word in query_lower for word in ["temperature", "temp", "cooling", "heating"]):
         return """**🌡️ Thermal Management Analysis**
 
 **Current State:**
-- **Tank 1-3:** 29.8°C ✅ (Target: 30°C ± 1°C)
-- **Tank 4:** 33.2°C ⚠️ (Elevated)
+- **Tank 1-3:** 29.8°C [NOMINAL] (Target: 30°C ± 1°C)
+- **Tank 4:** 33.2°C [ELEVATED]
 
 **Arrhenius Impact (Tank 4):**
 Expected bacterial activity: k = A×exp(-Ea/RT)
@@ -764,12 +764,12 @@ Energy source: Fe²⁺ → Fe³⁺ + e⁻
 Carbon fixation: CO₂ → Biomass (Calvin cycle)
 
 **Nutritional Status:**
-✅ NH₄⁺: 120 mg/L (Sufficient)
-✅ PO₄³⁻: 45 mg/L (Sufficient)
-✅ Trace metals (Mg, K, Ca): Within range
+[NOMINAL] NH₄⁺: 120 mg/L (Sufficient)
+[NOMINAL] PO₄³⁻: 45 mg/L (Sufficient)
+[NOMINAL] Trace metals (Mg, K, Ca): Within range
 
 **Stress Indicators:**
-⚠️ Slight oxidative stress detected (ΔpH spike, Tank 4)
+[WARNING] Slight oxidative stress detected (ΔpH spike, Tank 4)
 → Enhanced monitoring for next 2 hours"""
 
     else:
