@@ -789,14 +789,7 @@ I can help you with:
 3. **Recovery Tanks**: Metal precipitation, filtration efficiency
 
 Please specify a **subsystem** (Bio-Reactor, Sorting Line, Recovery Tank) or ask about a specific **parameter** (pH, temperature, efficiency, cobalt, etc.)."""
-                *   Bacterial Count: $5.2 \\times 10^8$ cells/mL.
-                *   Fe2+ Oxidation Rate: Optimal.
-                """)
-            else:
-                st.warning("""
-                **RADORDENA Agent:**
-                I am processing your query. Please specify a subsystem (Bio-Reactor, Sorting Line, or Recovery Tank).
-                """)
+
 
 elif page == "AI Battery Sorting":
     st.title("RADORDENA-SORT-01: Intelligent Sorting Agent")
