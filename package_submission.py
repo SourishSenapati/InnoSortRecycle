@@ -22,7 +22,13 @@ INCLUDES = [
     "train_vision_agent.py",
     "train_bio_agent.py",
     "run_connect_agent.py",
-    "setup_datasets.py"
+    "setup_datasets.py",
+    "VICTORY_STRATEGY.md",
+    "MARKET_DOMINANCE_STRATEGY.md",
+    "DEPLOYMENT_CERTIFICATION.md",
+    "WINNERS_CHECKLIST.md",
+    "test_suite.py",
+    "test_results.txt"
 ]
 
 # We will rename the base model to look like our trained model

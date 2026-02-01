@@ -49,7 +49,7 @@
 - **90% lower labor** (autonomous sorting vs. manual)
 - **Zero landfill fees** (>99.5% material recovery)
 
-## Technology Moats (Impossible to Replicate)
+## Competitive Moats (Impossible to Replicate)
 
 ### 1. Proprietary AI Training Data
 
@@ -128,7 +128,7 @@
 
 - **Barrier:** 3-year AI training data gap (insurmountable)
 - **Barrier:** ₹5 Cr R&D investment required before revenue
-- **Our Advantage:** First-mover moat + network effects (more data → better models)
+- **Our Advantage:** First-mover Competitive Moats + network effects (more data -> better models)
 
 ## Why RADORDENA Wins Chempreneur 2026
 

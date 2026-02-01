@@ -6,25 +6,40 @@ Comprehensive validation of all modules for Chempreneur 2026 demonstration
 import sys
 import time
 from pathlib import Path
+import py_compile
+import streamlit  # pylint: disable=unused-import
+import numpy  # pylint: disable=unused-import
+import pandas  # pylint: disable=unused-import
+import plotly  # pylint: disable=unused-import
+from src.simulation_engine import BioleachingReactor, ElectroRecovery  # pylint: disable=unused-import
+from src.ai_engine import HyperspectralClassifier  # pylint: disable=unused-import
+from src.financials import FinancialModel  # pylint: disable=unused-import
+from src.connect_agent import ConnectAgent  # pylint: disable=unused-import
 
 # Test configuration
-TESTS_RUN = 0
-TESTS_PASSED = 0
-TESTS_FAILED = 0
+
+
+class TestMetrics:
+    """Class to track test results without using global statements"""
+    run = 0
+    passed = 0
+    failed = 0
+
+
+METRICS = TestMetrics()
 
 
 def log_test(test_name: str, status: str, details: str = ""):
     """Log test results with timestamp"""
-    global TESTS_RUN, TESTS_PASSED, TESTS_FAILED
-    TESTS_RUN += 1
+    METRICS.run += 1
     timestamp = time.strftime("%H:%M:%S")
 
     if status == "PASS":
-        TESTS_PASSED += 1
-        print(f"[{timestamp}] ✓ PASS: {test_name}")
+        METRICS.passed += 1
+        print(f"[{timestamp}] PASS: {test_name}")
     else:
-        TESTS_FAILED += 1
-        print(f"[{timestamp}] ✗ FAIL: {test_name}")
+        METRICS.failed += 1
+        print(f"[{timestamp}] FAIL: {test_name}")
 
     if details:
         print(f"         Details: {details}")
@@ -33,14 +48,7 @@ def log_test(test_name: str, status: str, details: str = ""):
 def test_imports():
     """Test 1: Verify all critical imports"""
     try:
-        import streamlit
-        import numpy
-        import pandas
-        import plotly
-        from src.simulation_engine import BioleachingReactor, ElectroRecovery
-        from src.ai_engine import HyperspectralClassifier
-        from src.financials import FinancialModel
-        from src.connect_agent import ConnectAgent
+        # Imports are verified at module level
         log_test("Module Imports", "PASS", "All dependencies available")
         return True
     except ImportError as e:
@@ -78,7 +86,6 @@ def test_file_structure():
 
 def test_app_syntax():
     """Test 3: Python syntax validation"""
-    import py_compile
     try:
         py_compile.compile("app.py", doraise=True)
         log_test("Python Syntax", "PASS", "app.py compiles successfully")
@@ -93,11 +100,11 @@ def test_data_calculations():
     try:
         # Test carbon credit calculations
         annual_throughput = 500  # tons
-        co2_savings_per_ton = 2.5  # tons CO2/ton waste
-        carbon_price = 850  # INR per ton CO2
+        co2_savings = 2.5  # tons CO2/ton waste
+        price = 850  # INR per ton CO2
 
-        expected_co2_avoided = annual_throughput * co2_savings_per_ton  # 1250
-        expected_revenue = expected_co2_avoided * carbon_price  # 1,062,500
+        expected_co2_avoided = annual_throughput * co2_savings  # 1250
+        expected_revenue = expected_co2_avoided * price  # 1,062,500
 
         assert expected_co2_avoided == 1250, "CO2 calculation error"
         assert expected_revenue == 1062500, "Revenue calculation error"
@@ -109,7 +116,7 @@ def test_data_calculations():
         assert radordena_li_recovery > target_li_recovery, "Recovery rate below target"
 
         log_test("Financial Calculations", "PASS",
-                 f"Carbon revenue: ₹{expected_revenue/1e5:.2f} Lakh validated")
+                 f"Carbon revenue: INR {expected_revenue/1e5:.2f} Lakh validated")
         return True
     except AssertionError as e:
         log_test("Financial Calculations", "FAIL", str(e))
@@ -120,10 +127,10 @@ def test_competitive_metrics():
     """Test 5: Verify competitive advantage metrics"""
     try:
         metrics = {
-            "recovery_rate": 0.924,  # 92.4%
-            "co2_reduction": 0.60,   # 60% reduction
-            "energy_savings": 0.82,  # 82% less energy
-            "revenue_streams": 5     # vs. competitors' 1-2
+            "recovery_rate": 0.924,
+            "co2_reduction": 0.60,
+            "energy_savings": 0.82,
+            "revenue_streams": 5
         }
 
         # Validation
@@ -227,7 +234,7 @@ def test_scoring_criteria():
         assert viability_metrics["year1_revenue_cr"] > 7.0, "Revenue below threshold"
         assert len(scalability_features) >= 4, "Scalability not demonstrated"
 
-        total_score_estimate = 35 + 25 + 25 + 15  # If all criteria met
+        total_score_estimate = 35 + 25 + 25 + 15
 
         log_test("Scoring Criteria", "PASS",
                  f"Projected score: {total_score_estimate}/100 (all categories maximized)")
@@ -256,7 +263,7 @@ def stress_test_calculations():
         assert carbon_revenue > min_revenue, "Revenue scaling logic error"
 
         log_test("Stress Test Calculations", "PASS",
-                 f"Validated range: ₹{min_revenue/1e5:.2f} - ₹{carbon_revenue/1e5:.2f} Lakh")
+                 f"Validated range: INR {min_revenue/1e5:.2f} - INR {carbon_revenue/1e5:.2f} Lakh")
         return True
     except AssertionError as e:
         log_test("Stress Test Calculations", "FAIL", str(e))
@@ -312,28 +319,27 @@ def run_test_suite():
 
     for test_func in tests:
         test_func()
-        time.sleep(0.1)  # Brief pause between tests
+        time.sleep(0.1)
 
     # Final report
     print("\n" + "="*80)
     print("TEST SUMMARY")
     print("="*80)
-    print(f"Total Tests Run:    {TESTS_RUN}")
-    print(f"Tests Passed:       {TESTS_PASSED} ✓")
-    print(f"Tests Failed:       {TESTS_FAILED} ✗")
-    print(f"Success Rate:       {(TESTS_PASSED/TESTS_RUN)*100:.1f}%")
+    print(f"Total Tests Run:    {METRICS.run}")
+    print(f"Tests Passed:       {METRICS.passed}")
+    print(f"Tests Failed:       {METRICS.failed}")
+    print(f"Success Rate:       {(METRICS.passed/METRICS.run)*100:.1f}%")
     print("="*80)
 
-    if TESTS_FAILED == 0:
-        print("\n🏆 VICTORY STATUS: APPLICATION READY FOR CHEMPRENEUR 2026")
+    if METRICS.failed == 0:
+        print("\nVICTORY STATUS: APPLICATION READY FOR CHEMPRENEUR 2026")
         print("All systems validated. Competitive advantage confirmed.\n")
         return 0
-    else:
-        print(
-            f"\n⚠ WARNING: {TESTS_FAILED} test(s) failed. Review required.\n")
-        return 1
+
+    print(f"\nWARNING: {METRICS.failed} test(s) failed. Review required.\n")
+    return 1
 
 
 if __name__ == "__main__":
-    exit_code = run_test_suite()
-    sys.exit(exit_code)
+    EXIT_CODE = run_test_suite()
+    sys.exit(EXIT_CODE)

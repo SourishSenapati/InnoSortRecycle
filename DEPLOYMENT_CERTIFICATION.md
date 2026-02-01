@@ -42,7 +42,7 @@ RADORDENA has undergone comprehensive validation and stress testing. The applica
 
 ### Metric 1: Recovery Rate Superiority
 
-```
+```text
 RADORDENA:     92.4% (Li), 89.1% (Co)
 Competitors:   70-85% (Li), 75-88% (Co)
 EU 2030 Target: 70% (Li), 95% (Co)
@@ -53,7 +53,7 @@ ADVANTAGE: +15% revenue per ton vs. industry average
 
 ### Metric 2: Environmental Impact
 
-```
+```text
 CO2 Footprint:
 - Pyrometallurgy: 4.2 tons CO2/ton waste
 - RADORDENA:     1.7 tons CO2/ton waste
@@ -69,7 +69,7 @@ STATUS: ✅ NEW REVENUE STREAM (competitors ignore this)
 
 ### Metric 3: Revenue Stream Diversification
 
-```
+```text
 RADORDENA Revenue Streams (Year 1, 500 tons):
 1. Metal Recovery:       ₹6.2 Cr
 2. Carbon Credits:       ₹1.1 Cr  ← UNIQUE
@@ -86,7 +86,7 @@ STATUS: ✅ 45% HIGHER REVENUE POTENTIAL
 
 ### Metric 4: Technology Moat
 
-```
+```text
 AI Training Data:
 - RADORDENA:   10,000+ images
 - Competitors: 0-500 images
@@ -105,7 +105,7 @@ STATUS: ✅ UNBRIDGEABLE COMPETITIVE MOAT
 
 ### Metric 5: Regulatory Compliance
 
-```
+```text
 EU Battery Regulation 2023 (Mandatory 2027):
 
 ✅ Digital Battery Passport:   READY (blockchain system)
@@ -335,7 +335,7 @@ Payback: 18 Cr ÷ 4.6 Cr = 3.9 years → 18 months with carbon credits
 
 ### Local Environment ✅
 
-- **URL:** http://localhost:8501
+- **URL:** <http://localhost:8501>
 - **Status:** RUNNING (7+ hours uptime)
 - **Performance:** All 9 modules load instantly
 - **Errors:** ZERO runtime errors
@@ -344,7 +344,7 @@ Payback: 18 Cr ÷ 4.6 Cr = 3.9 years → 18 months with carbon credits
 ### Cloud Deployment ✅
 
 - **Platform:** Streamlit Community Cloud
-- **Repository:** https://github.com/SourishSenapati/InnoSortRecycle
+- **Repository:** <https://github.com/SourishSenapati/InnoSortRecycle>
 - **Auto-Deploy:** Enabled (pushes trigger rebuild)
 - **Status:** LIVE and publicly accessible
 - **Latency:** <2 seconds initial load
@@ -407,21 +407,21 @@ Payback: 18 Cr ÷ 4.6 Cr = 3.9 years → 18 months with carbon credits
 
 ### Live Demo Sequence (3 minutes)
 
-**Minute 1: Innovation**
+#### Minute 1: Innovation
 
 1. Navigate to **Chat with Plant**
 2. Type: "Why is cobalt recovery low in Tank 4?"
 3. Show real-time diagnostic response with chemistry
 4. **Impact:** Proves agentic AI capability
 
-**Minute 2: Sustainability**
+#### Minute 2: Sustainability
 
 1. Navigate to **Carbon Credits & ESG**
 2. Adjust throughput slider (100 → 5000 tons)
 3. Show emissions comparison chart
 4. **Impact:** Quantifies environmental advantage
 
-**Minute 3: Viability + Scalability**
+#### Minute 3: Viability + Scalability
 
 1. Navigate to **EU Regulatory Compliance**
 2. Show Digital Battery Passport JSON
@@ -501,5 +501,5 @@ RADORDENA has built **three insurmountable moats:**
 ---
 
 _All metrics validated through automated test suite (`test_suite.py`)_  
-_Live demonstration available at: http://localhost:8501_  
+_Live demonstration available at: <http://localhost:8501>_  
 _Public deployment: Streamlit Cloud (auto-synced with GitHub)_
