@@ -24,28 +24,74 @@ st.set_page_config(
 # Custom CSS for Premium Look
 st.markdown("""
 <style>
-    .reportview-container {
-        background: #0E1117;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+    
+    * {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
-    .main .block-container {
-        padding-top: 2rem;
+    
+    .stApp {
+        background: linear-gradient(135deg, #0a0f1c 0%, #1a1f35 100%);
     }
-    h1, h2, h3 {
-        font-family: 'Helvetica Neue', sans-serif;
-        color: #00FF94; /* Bio-tech Green */
+    
+    h1 {
+        background: linear-gradient(90deg, #00ff94 0%, #00d4ff 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        font-size: 2.5rem !important;
+        margin-bottom: 1rem;
     }
+    
+    h2, h3 {
+        color: #00ff94;
+        font-weight: 600;
+    }
+    
     .metric-card {
-        background-color: #1F2937;
-        padding: 20px;
-        border-radius: 10px;
-        border: 1px solid #374151;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        background: linear-gradient(135deg, #1a2332 0%, #2d3548 100%);
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid rgba(0, 255, 148, 0.2);
+        box-shadow: 0 8px 24px rgba(0, 255, 148, 0.1);
+        transition: transform 0.3s ease;
     }
+    
+    .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 32px rgba(0, 255, 148, 0.2);
+    }
+    
     .stButton>button {
-        background-color: #00FF94;
-        color: #000000;
-        border-radius: 20px;
-        font-weight: bold;
+        background: linear-gradient(90deg, #00ff94 0%, #00d4ff 100%);
+        color: #0a0f1c;
+        border: none;
+        border-radius: 25px;
+        font-weight: 600;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 255, 148, 0.3);
+    }
+    
+    .stButton>button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 255, 148, 0.4);
+    }
+    
+    .sidebar .sidebar-content {
+        background: linear-gradient(180deg, #1a2332 0%, #0a0f1c 100%);
+    }
+    
+    [data-testid="stMetricValue"] {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #00ff94;
+    }
+    
+    .stProgress > div > div {
+        background: linear-gradient(90deg, #00ff94 0%, #00d4ff 100%);
     }
 </style>
 """, unsafe_allow_html=True)
