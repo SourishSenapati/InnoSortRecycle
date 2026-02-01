@@ -1139,7 +1139,7 @@ elif page == "Carbon Credits & ESG":
     st.success(f"""
     **Total Environmental Revenue Stream:** ₹{total_env_revenue/1e5:.2f} Lakh/Year
     
-    This represents {(total_env_revenue/(annual_throughput*12400 + total_env_revenue))*100:.1f}% of total revenue - 
+    This represents {(total_env_revenue/(annual_throughput*12400 + total_env_revenue))*100:.1f}% of total revenue -
     value that **competitors completely ignore**.
     """)
 
@@ -1197,13 +1197,13 @@ elif page == "EU Regulatory Compliance":
             col1, col2 = st.columns(2)
 
             with col1:
-                st.markdown(f"**Regulatory Requirement:**")
+                st.markdown("**Regulatory Requirement:**")
                 st.write(details['Requirement'])
-                st.markdown(f"**RADORDENA Implementation:**")
+                st.markdown("**RADORDENA Implementation:**")
                 st.success(details['Implementation'])
 
             with col2:
-                st.markdown(f"**Competitor Benchmark:**")
+                st.markdown("**Competitor Benchmark:**")
                 if "NON-COMPLIANT" in details['Competitor Status']:
                     st.error(details['Competitor Status'])
                 elif "PARTIAL" in details['Competitor Status']:
